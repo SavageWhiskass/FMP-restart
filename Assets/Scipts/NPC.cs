@@ -1,8 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement; 
+
 
 public class NPC : MonoBehaviour
 {
@@ -15,6 +18,11 @@ public class NPC : MonoBehaviour
 
     public float wordSpeed;
     public bool playerIsClose;
+
+    
+
+    public string nextSceneName; 
+    public GameObject battleButton;
 
     // Update is called once per frame
     void Update()
@@ -33,6 +41,7 @@ public class NPC : MonoBehaviour
 
                 dialoguePanel.SetActive(true);
                 StartCoroutine(Typing());
+                battleButton.SetActive(false);
             }
 
         }
@@ -43,6 +52,7 @@ public class NPC : MonoBehaviour
     {
 
         contButton.SetActive(false);
+        battleButton.SetActive(true);
 
         if (index < dialogue.Length - 1)
         {
@@ -52,20 +62,26 @@ public class NPC : MonoBehaviour
         }
         else
         {
-            zeroText();
+            
         }
 
         if (dialogueText.text == dialogue[index])
         {
             contButton.SetActive(true);
+            
         }
 
 
+    }
+
+    public void battle()
+    {
 
 
-
-
-
+        
+        
+            SceneManager.LoadScene(nextSceneName);
+        
     }
 
 
@@ -77,6 +93,8 @@ public class NPC : MonoBehaviour
         dialogueText.text = "";
         index = 0;
         dialoguePanel.SetActive(false);
+        battleButton.SetActive(true);
+
     }
     IEnumerator Typing()
     {
@@ -104,4 +122,10 @@ public class NPC : MonoBehaviour
             zeroText();
         }
     }
+
+    
+    
+
+    
 }
+
