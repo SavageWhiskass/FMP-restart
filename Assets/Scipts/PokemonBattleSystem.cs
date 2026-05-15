@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 
 public class PokemonBattleSystem : MonoBehaviour
@@ -37,6 +38,8 @@ public class PokemonBattleSystem : MonoBehaviour
     private bool playerTurn = true;
     private bool battleOver = false;
 
+    public string newSceneName;
+
     void Start()
     {
         // Initialize HP
@@ -53,7 +56,7 @@ public class PokemonBattleSystem : MonoBehaviour
         // Assign move buttons
         for (int i = 0; i < moveButtons.Length; i++)
         {
-            int index = i; // capture index for lambda
+            int index = i; 
             moveButtons[i].GetComponentInChildren<TMP_Text>().text = playerPokemon.moves[i].moveName;
             moveButtons[i].onClick.AddListener(() => OnPlayerMove(index));
         }
@@ -108,20 +111,39 @@ public class PokemonBattleSystem : MonoBehaviour
         enemyHPBar.value = enemyPokemon.currentHP;
     }
 
+
     bool CheckBattleEnd()
     {
         if (playerPokemon.currentHP <= 0)
         {
             battleLog.text = $"{playerPokemon.name} fainted! You lose!";
             battleOver = true;
+            StartCoroutine(EndBattleDelay());
             return true;
         }
         else if (enemyPokemon.currentHP <= 0)
         {
             battleLog.text = $"{enemyPokemon.name} fainted! You win!";
             battleOver = true;
+            StartCoroutine(EndBattleDelay());
             return true;
         }
         return false;
     }
+
+
+
+    void LoadNextScene()
+    {
+        SceneManager.LoadScene(newSceneName);
+    }
+
+
+    IEnumerator EndBattleDelay()
+    {
+        yield return new WaitForSeconds(2f); // wait 2 seconds
+        LoadNextScene();
+    }
+
+
 }

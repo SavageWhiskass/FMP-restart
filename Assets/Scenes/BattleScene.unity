@@ -274,6 +274,7 @@ MonoBehaviour:
   moveButtons:
   - {fileID: 858709001}
   - {fileID: 1256823099}
+  newSceneName: Area1
 --- !u!1 &126987438
 GameObject:
   m_ObjectHideFlags: 0
